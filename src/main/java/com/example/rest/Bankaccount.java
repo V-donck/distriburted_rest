@@ -1,26 +1,25 @@
 package com.example.rest;
 
-import java.util.UUID;
 
 public class Bankaccount {
     private float balance;
-    //private UUID personId;
-    private UUID bankaccountId;
+    private final String name;
+    private final String accountId;
 
 
-    public Bankaccount(UUID personId) {
+    public Bankaccount(String name) {
         this.balance = 0;
-        this.bankaccountId = UUID.randomUUID();
-       //this.personId = personId;
+        this.accountId = name + "acc";
+        this.name = name;
     }
 
-    public UUID getBankaccountId() {
-        return bankaccountId;
+    public String getBankaccountId() {
+        return accountId;
     }
 
-  // public UUID getPersonId() {
-        //return personId;
-   // }
+    public String getName() {
+        return name;
+    }
 
     public float getBalance() {
         return balance;

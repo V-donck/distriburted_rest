@@ -2,6 +2,7 @@ package com.example.rest;
 
 
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -9,30 +10,31 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class BankController {
-    HashMap<UUID, Bankaccount> database;
+    HashMap<String, Bankaccount> database;
 
     public BankController() {
-        this.database = new HashMap<UUID, Bankaccount>();
+        this.database = new HashMap<>();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addAcount(UUID personId){
-        Bankaccount account = new Bankaccount(personId);
+    public void addAcount(@RequestParam("name") String name){
+        Bankaccount account = new Bankaccount(name);
         database.put(account.getBankaccountId(),account);
     }
 
     @GetMapping(value = "/")
     @ResponseStatus(HttpStatus.OK)
-    public void getBalance(@RequestParam long id){//, @RequestParam String personId){
+    public void getBalance(@RequestParam String id, @RequestParam String name){
         System.out.println(id);
-        //Bankaccount account = database.get(bankaccountId);
-       // if(personId == account.getPersonId()){
-       //     return account.getBalance();
-       // }
-       // else{
-        //    return -1;
-       // }
+        Bankaccount account = database.get(id);
+        System.out.println(account.getName());
+        if(Objects.equals(name, account.getName())){
+            System.out.println("Balance is : " + account.getBalance());
+        }
+        else{
+            System.out.println("no account");
+        }
     }
 
 
@@ -52,20 +54,26 @@ public class BankController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public void addMoney(UUID bankaccountId, float amount){
-        Bankaccount account = database.get(bankaccountId);
-        account.addMoney(amount);
+    public void addMoney(@RequestParam("accountid") String accountid, @RequestParam("amount") String amount){
+        System.out.println(accountid + " " + amount);
+        Bankaccount account = database.get(accountid);
+        account.addMoney(Float.parseFloat(amount));
+
     }
 
-    public boolean getMoney(UUID bankaccountId, UUID personId, float amount){
-        Bankaccount account = database.get(bankaccountId);
-        //if(personId == account.getPersonId()){
-            account.getMoney(amount);
-            return true;
-       // }
-        //else{
-         //   return false;
-       // }
+   /* @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public void getMoney(@RequestParam String accountid, String name, String amount){
+        Bankaccount account = database.get(accountid);
+        if(Objects.equals(name, account.getName())){
+            account.getMoney(Float.parseFloat(amount));
+            System.out.println("afgehaald");
+        }
+        else{
+            System.out.println("error not right account");
+        }
     }
+
+    */
 
 }
