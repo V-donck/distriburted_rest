@@ -61,7 +61,7 @@ public class BankController {
 
     }
 
-   /* @PutMapping
+    @PutMapping(value = "/getMoney/")
     @ResponseStatus(HttpStatus.OK)
     public void getMoney(@RequestParam String accountid, String name, String amount){
         Bankaccount account = database.get(accountid);
@@ -74,6 +74,6 @@ public class BankController {
         }
     }
 
-    */
+
 
 }
