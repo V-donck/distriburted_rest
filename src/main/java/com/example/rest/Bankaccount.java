@@ -33,12 +33,14 @@ public class Bankaccount {
         this.balance = balance + money;
     }
 
-    public void getMoney(float money){
+    public float getMoney(float money){
         if(balance - money>= 0) {
             this.balance = balance - money;
+            return balance;
         }
         else{
             System.out.println("error!!! te weinig geld!");
+            return -1;
         }
     }
 }

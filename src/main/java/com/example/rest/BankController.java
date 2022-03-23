@@ -3,7 +3,6 @@ package com.example.rest;
 
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,24 +15,26 @@ public class BankController {
         this.database = new HashMap<>();
     }
 
-    @PostMapping
+    @PostMapping(value = "/addAccount")
     @ResponseStatus(HttpStatus.CREATED)
     public void addAcount(@RequestParam("name") String name){
         Bankaccount account = new Bankaccount(name);
         database.put(account.getBankaccountId(),account);
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/getBalance")
     @ResponseStatus(HttpStatus.OK)
-    public void getBalance(@RequestParam String id, @RequestParam String name){
+    public float getBalance(@RequestParam String id, @RequestParam String name){
         System.out.println(id);
         Bankaccount account = database.get(id);
         System.out.println(account.getName());
         if(Objects.equals(name, account.getName())){
             System.out.println("Balance is : " + account.getBalance());
+            return account.getBalance();
         }
         else{
             System.out.println("no account");
+            return -1;
         }
     }
 
@@ -52,7 +53,7 @@ public class BankController {
         // }
     //}
 
-    @PutMapping
+    @PutMapping(value = "/addMoney/")
     @ResponseStatus(HttpStatus.OK)
     public void addMoney(@RequestParam("accountid") String accountid, @RequestParam("amount") String amount){
         System.out.println(accountid + " " + amount);
@@ -63,14 +64,22 @@ public class BankController {
 
     @PutMapping(value = "/getMoney/")
     @ResponseStatus(HttpStatus.OK)
-    public void getMoney(@RequestParam String accountid, String name, String amount){
+    public float getMoney(@RequestParam String accountid, String name, String amount){
         Bankaccount account = database.get(accountid);
         if(Objects.equals(name, account.getName())){
-            account.getMoney(Float.parseFloat(amount));
-            System.out.println("afgehaald");
+            float balance = account.getMoney(Float.parseFloat(amount));
+            if (balance>=0){
+                System.out.println("afgehaald, total balance now :"+ balance);
+                return balance;
+            }
+            else{
+                System.out.println("error!!! te weinig geld!");
+                return -1;
+            }
         }
         else{
             System.out.println("error not right account");
+            return -1;
         }
     }
 
