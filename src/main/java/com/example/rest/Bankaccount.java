@@ -13,6 +13,7 @@ public class Bankaccount {
         this.balance = 0;
         this.accountId = name + "acc";
         this.name.add(name);
+        System.out.println(name);
     }
 
     public String getBankaccountId() {
@@ -46,10 +47,14 @@ public class Bankaccount {
         }
     }
 
-    public void addPerson(float money, String name){
+    public String addPerson(float money, String name){
         this.balance= balance + money;
         this.name.add(name);
         this.accountId = this.name.get(0) + "_" + this.name.get(1) + "acc";
+        for (String n:this.name){
+            System.out.println(n);
+        }
+        return this.accountId;
     }
 
     public boolean singlePerson (){
