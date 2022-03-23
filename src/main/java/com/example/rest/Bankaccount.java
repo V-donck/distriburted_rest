@@ -1,23 +1,25 @@
 package com.example.rest;
 
 
+import java.util.ArrayList;
+
 public class Bankaccount {
     private float balance;
-    private final String name;
-    private final String accountId;
+    private String accountId;
+    private final ArrayList<String> name  = new ArrayList<>();
 
 
     public Bankaccount(String name) {
         this.balance = 0;
         this.accountId = name + "acc";
-        this.name = name;
+        this.name.add(name);
     }
 
     public String getBankaccountId() {
         return accountId;
     }
 
-    public String getName() {
+    public ArrayList<String> getName() {
         return name;
     }
 
@@ -42,5 +44,15 @@ public class Bankaccount {
             System.out.println("error!!! te weinig geld!");
             return -1;
         }
+    }
+
+    public void addPerson(float money, String name){
+        this.balance= balance + money;
+        this.name.add(name);
+        this.accountId = this.name.get(0) + "_" + this.name.get(1) + "acc";
+    }
+
+    public boolean singlePerson (){
+        return name.size() == 1;
     }
 }
