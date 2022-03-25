@@ -44,7 +44,11 @@ public class BankController {
         return -1;
     }
 
-
+    @GetMapping(value = "/getAccountInfo")
+    @ResponseStatus(HttpStatus.OK)
+    public Bankaccount getAccountInfo(@RequestParam String id){
+        return database.get(id);
+    }
 
    // @GetMapping(value = "/{id}")
    // @ResponseStatus(HttpStatus.OK)
