@@ -23,6 +23,7 @@ public class BankController {
     public String addAcount(@RequestParam("name") String name){
         Bankaccount account = new Bankaccount(name);
         database.put(account.getBankaccountId(),account);
+        System.out.println("Account created");
         return account.getBankaccountId();
     }
 
