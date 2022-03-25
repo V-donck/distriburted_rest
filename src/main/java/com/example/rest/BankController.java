@@ -18,7 +18,7 @@ public class BankController {
         this.database = new HashMap<>();
     }
 
-    @PostMapping(value = "/addAccount/")
+    @PostMapping(value = "/addAccount")
     @ResponseStatus(HttpStatus.CREATED)
     public String addAcount(@RequestParam("name") String name){
         Bankaccount account = new Bankaccount(name);
@@ -26,7 +26,7 @@ public class BankController {
         return account.getBankaccountId();
     }
 
-    @GetMapping(value = "/getBalance/")
+    @GetMapping(value = "/getBalance")
     @ResponseStatus(HttpStatus.OK)
     public float getBalance(@RequestParam String id, @RequestParam String name){
         System.out.println(id);
@@ -58,7 +58,7 @@ public class BankController {
         // }
     //}
 
-    @PutMapping(value = "/addMoney/")
+    @PutMapping(value = "/addMoney")
     @ResponseStatus(HttpStatus.OK)
     public void addMoney(@RequestParam("accountid") String accountid, @RequestParam("amount") String amount){
         Lock lock = new ReentrantLock();
@@ -73,7 +73,7 @@ public class BankController {
 
     }
 
-    @PutMapping(value = "/getMoney/")
+    @PutMapping(value = "/getMoney")
     @ResponseStatus(HttpStatus.OK)
     public float getMoney(@RequestParam String accountid, @RequestParam String name, @RequestParam String amount){
         Lock lock = new ReentrantLock();
@@ -101,7 +101,7 @@ public class BankController {
         }
     }
 
-    @PutMapping(value = "/join/")
+    @PutMapping(value = "/join")
     @ResponseStatus(HttpStatus.OK)
     public String Join(@RequestParam String accountId1, @RequestParam String name1, @RequestParam String accountId2, @RequestParam String name2){
         Bankaccount account1 = database.get(accountId1);
@@ -117,7 +117,7 @@ public class BankController {
         return "error";
     }
 
-    @PutMapping(value = "/test/")
+    @PutMapping(value = "/test")
     @ResponseStatus(HttpStatus.OK)
     public void test(){
         String accountIdJ = addAcount("Jos");
