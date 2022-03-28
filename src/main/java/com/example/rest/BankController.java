@@ -30,24 +30,19 @@ public class BankController {
     @GetMapping(value = "/getBalance")
     @ResponseStatus(HttpStatus.OK)
     public float getBalance(@RequestParam String id, @RequestParam String name){
-        System.out.println(id);
         Bankaccount account = database.get(id);
-        //System.out.println(account.getName());
         ArrayList<String> namelist = account.getName();
-        for(String namel:namelist) {
-            if (Objects.equals(name, namel)) {
-                System.out.println("Balance is : " + account.getBalance());
-                return account.getBalance();
-            }
+        if(namelist.contains(name)) {
+            System.out.println("Balance is : " + account.getBalance());
+            return account.getBalance();
         }
-        System.out.println("no account");
         return -1;
     }
 
     @GetMapping(value = "/getAccountInfo")
     @ResponseStatus(HttpStatus.OK)
-    public Bankaccount getAccountInfo(@RequestParam String id){
-        return database.get(id);
+    public Bankaccount getAccountInfo(@RequestParam String id, @RequestParam String name){
+        return database.get(id).getName().contains(name)? database.get(id): null;
     }
 
    // @GetMapping(value = "/{id}")
@@ -86,7 +81,7 @@ public class BankController {
         try {
             Bankaccount account = database.get(accountid);
             ArrayList<String> namelist = account.getName();
-            if(Objects.equals(name, namelist.get(0)) | Objects.equals(name, namelist.get(1))){
+            if(namelist.contains(name)){
                 float balance = account.getMoney(Float.parseFloat(amount));
                 if (balance>=0){
                     System.out.println("afgehaald, total balance now :"+ balance);
@@ -130,6 +125,5 @@ public class BankController {
         String accountIdA = addAcount("Anne");
         addMoney(accountIdA,"254");
     }
-
 
 }
