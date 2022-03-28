@@ -106,10 +106,9 @@ public class BankController {
     public String Join(@RequestParam String accountId1, @RequestParam String name1, @RequestParam String accountId2, @RequestParam String name2){
         Bankaccount account1 = database.get(accountId1);
         Bankaccount account2 = database.get(accountId2);
-        if (name1.equals(account1.getName().get(0)) && name2.equals(account2.getName().get(0)) && account1.singlePerson() && account2.singlePerson()) {
+        if (account1.getName().contains(name1) && account2.getName().contains(name2) && account1.singlePerson() && account2.singlePerson()) {
             String newaccountId = account1.addPerson(account2.getBalance(), name2);
             database.remove(accountId1);
-
             database.put(account1.getBankaccountId(),account1);
             database.remove(accountId2);
             return newaccountId;
